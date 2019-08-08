@@ -1,4 +1,7 @@
+#include <iostream>
+#include <core_io.h>
+
+using namespace std;
 int main() {
-  std::cout << "Bitcoin fun!" << std::endl;
-  return 0;
+  cout << "fun";
 }

@@ -79,8 +79,8 @@ set(BITCOIN_LIBRARIES ${BITCOIN_LIBRARIES}
     "${CHAIN_SRC_ROOT}/src/libbitcoin_common.a"
     "${CHAIN_SRC_ROOT}/src/libbitcoin_consensus.a"
     "${CHAIN_SRC_ROOT}/src/libbitcoin_util.a"
-    "${CHAIN_SRC_ROOT}/src/crypto/libbitcoin_crypto.a")
-
+    "${CHAIN_SRC_ROOT}/src/crypto/libbitcoin_crypto_base.a")
+  
 list(GET BITCOIN_LIBRARIES 0 BITCOIN_LIBRARIE)
 if (NOT EXISTS ${BITCOIN_LIBRARIE})
   message(STATUS "building ${CHAIN_NAME}...")
@@ -173,7 +173,7 @@ include_directories(
   ${LIBZMQ_INCLUDE_DIR}
   ${GLOG_INCLUDE_DIRS}
   ${ZLIB_INCLUDE_DIRS}
-  ${LIBEVENT_INCLUDE_DIR}
+  ${LIBEVENT_INCLUDE_DIR})
 
 set(THIRD_LIBRARIES ${BITCOIN_LIBRARIES} ${secp256k1_LIBRARIES} ${GLOG_LIBRARIES} ${ZLIB_LIBRARIES} ${LIBZMQ_LIBRARIES} ${Hiredis_LIBRARIES} ${CURL_LIBRARIES} ${Boost_LIBRARIES} ${LIBCONFIGPP_LIBRARY}
                     ${LIBEVENT_LIB} ${LIBEVENT_PTHREADS_LIB} ${GMP_LIBRARIES} ${LIBEVENT_OPENSSL_LIB} ${OPENSSL_SSL_LIBRARY} ${OPENSSL_CRYPTO_LIBRARY}
@@ -181,23 +181,21 @@ set(THIRD_LIBRARIES ${BITCOIN_LIBRARIES} ${secp256k1_LIBRARIES} ${GLOG_LIBRARIES
 
 file(GLOB LIB_SOURCES src/*.cc)
 
-add_library(
-    funlibs STATIC
-    ${LIB_SOURCES}
-    ${LIB_SOURCES_CHAINS})
+# add_library(
+# funlibs STATIC
+#    ${LIB_SOURCES})
 
-set(FUN_SOURCES src/fun/*.cc)
-add_executable(bitcoinfun ${FUN_SOURCES})
-target_link_libraries(bitcoinfun funlibs ${THIRD_LIBRARIES})
+set(FUN_SOURCES src/fun/main.cc)
+add_executable(bitcoin-fun ${FUN_SOURCES})
+# target_link_libraries(bitcoinfun funlibs ${THIRD_LIBRARIES})
 
 ###################################### Install & Package ######################################
-message("") # empty line
 message("------------------------------- Install & Package -------------------------------")
 
 # `make install` support
 
 # targets
-set(INSTALL_TARGETS bitcoinfun)
+set(INSTALL_TARGETS bitcoin-fun)
 
 # tmp dir for install & packet
 set(PACKAGE_TMP_DIR ${CMAKE_BINARY_DIR}/package_tmp)

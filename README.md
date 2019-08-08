@@ -1,2 +1,2 @@
 # bitcoin-fun
-bitcoin core fun
+bitcoin fun
