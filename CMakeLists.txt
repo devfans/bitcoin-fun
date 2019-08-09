@@ -181,13 +181,13 @@ set(THIRD_LIBRARIES ${BITCOIN_LIBRARIES} ${secp256k1_LIBRARIES} ${GLOG_LIBRARIES
 
 file(GLOB LIB_SOURCES src/*.cc)
 
-# add_library(
-# funlibs STATIC
-#    ${LIB_SOURCES})
+add_library(
+ funlibs STATIC
+ ${LIB_SOURCES})
 
 set(FUN_SOURCES src/fun/main.cc)
 add_executable(bitcoin-fun ${FUN_SOURCES})
-# target_link_libraries(bitcoinfun funlibs ${THIRD_LIBRARIES})
+target_link_libraries(bitcoin-fun funlibs ${THIRD_LIBRARIES})
 
 ###################################### Install & Package ######################################
 message("------------------------------- Install & Package -------------------------------")
@@ -200,9 +200,7 @@ set(INSTALL_TARGETS bitcoin-fun)
 # tmp dir for install & packet
 set(PACKAGE_TMP_DIR ${CMAKE_BINARY_DIR}/package_tmp)
 
-# init folders & copy configure files
-install(CODE "execute_process(WORKING_DIRECTORY ${CMAKE_BINARY_DIR} COMMAND bash ${CMAKE_SOURCE_DIR}/install/init_package_folders.sh)"
-        COMPONENT main)
+install(CODE "execute_process(WORKING_DIRECTORY ${CMAKE_BINARY_DIR} COMMAND bash ${CMAKE_SOURCE_DIR}/scripts/install.sh)" COMPONENT main)
 
 # separate debug info from targets
 if(CMAKE_OBJCOPY)
